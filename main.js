@@ -47,6 +47,28 @@ const countObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.6 });
 counters.forEach(c => countObserver.observe(c));
 
+// ===== ANIMATED COUNTERS (proven case stats, comma-formatted) =====
+const csNums = document.querySelectorAll('.cs-num');
+const csObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const to = parseInt(el.dataset.count, 10);
+    const dur = 1300;
+    const start = performance.now();
+    const fmt = n => n.toLocaleString('ko-KR');
+    const tick = now => {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(Math.round(eased * to));
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = fmt(to);
+    };
+    requestAnimationFrame(tick);
+    csObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+csNums.forEach(c => csObserver.observe(c));
+
 // ===== BEFORE / AFTER SLIDER =====
 document.querySelectorAll('.slider-wrap').forEach(wrap => {
   const before = wrap.querySelector('.slider-before');
