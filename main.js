@@ -2,6 +2,25 @@
    The Brilliant Star of UISEONG — interactions
    ========================================================= */
 
+// ===== SPLASH / LANDING =====
+(function () {
+  const splash = document.getElementById('splash');
+  if (!splash) { document.body.classList.remove('splash-active'); return; }
+  let done = false;
+  const enter = () => {
+    if (done) return; done = true;
+    clearTimeout(timer);
+    splash.classList.add('hide');
+    document.body.classList.remove('splash-active');
+    document.body.classList.add('entered');
+    setTimeout(() => splash.remove(), 1000);
+  };
+  const timer = setTimeout(enter, 2800);
+  ['click', 'keydown', 'wheel', 'touchstart'].forEach(ev =>
+    window.addEventListener(ev, enter, { once: true, passive: true })
+  );
+})();
+
 // ===== SCROLL PROGRESS =====
 const prog = document.getElementById('progress');
 window.addEventListener('scroll', () => {
