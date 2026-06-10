@@ -21,6 +21,16 @@
   );
 })();
 
+// ===== BRAND LOGO → 표지(맨 위)로 이동 =====
+const navBrand = document.querySelector('.nav-brand');
+if (navBrand) {
+  navBrand.addEventListener('click', e => {
+    e.preventDefault();
+    closeMobileMenu();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 // ===== SCROLL PROGRESS =====
 const prog = document.getElementById('progress');
 window.addEventListener('scroll', () => {
